@@ -3,7 +3,7 @@ using Clinic.Domain.Parties.People;
 
 namespace Clinic.Domain.Tests.Parties.People;
 
-internal class PersonTestBuilder : IPersonOptions
+public class PersonTestBuilder : PartyTestBuilder, IPersonOptions
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }
@@ -13,7 +13,7 @@ internal class PersonTestBuilder : IPersonOptions
         FirstName = TestConstants.SomeName;
         LastName = TestConstants.SomeLastName;
     }
-    public Person Build()
+    public override Person Build()
     {
         return new(this);
     }

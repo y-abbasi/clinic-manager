@@ -1,26 +1,12 @@
+using Clinic.Domain.Contracts.Parties.People;
 using FluentAssertions;
 
 namespace Clinic.Domain.Tests.Parties.People;
 
-public class PersonTests
+public class PersonTests : PartyTests<PersonTestBuilder, IPersonOptions>
 {
-    private PersonTestBuilder CreateSutBuilder()
+    protected override PersonTestBuilder CreateSutBuilder()
     {
-        return new();
-    }
-
-    [Fact]
-    public void PersonCreatedSuccessfully()
-    {
-        //arrange
-        var sutBuilder = CreateSutBuilder();
-        
-        //act
-        var sut = sutBuilder.Build();
-        
-        //assert
-        sut.Should().BeEquivalentTo(sutBuilder);
-        sut.Id.Should().NotBeNull();
+        return new PersonTestBuilder();
     }
 }
-
