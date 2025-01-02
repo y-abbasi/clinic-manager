@@ -19,6 +19,19 @@ public class PartyRoleManager //: IPartyRoleOptions
 
     public IPartyRole Build(string code, JObject payload)
     {
-        return mapper[code].Build(payload);
+        var options = BuildOptions(code, payload);
+        return Build(code, options);
+    }
+    public IPartyRole Build(string code, IPartyRoleOptions options)
+    {
+        var builder = mapper[code];
+        var partyRole = Activator.CreateInstance(builder.GetPartyRoleType(), options)!;
+        return (IPartyRole)partyRole;
+    }
+    
+    public IPartyRoleOptions BuildOptions(string code, JObject payload)
+    {
+        payload["code"] = code;
+        return (IPartyRoleOptions)payload.ToObject(mapper[code].GetPartyRoleOptionType())!;
     }
 }

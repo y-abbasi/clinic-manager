@@ -7,15 +7,7 @@ public class PersonTests : PartyTests<PersonTestBuilder, IPersonOptions>
 {
     protected override PersonTestBuilder CreateSutBuilder()
     {
-        return new PersonTestBuilder();
-    }
-
-    public void APersonCanBeADoctor()
-    {
-        //arrange
-        var builder = CreateSutBuilder()
+        return new PersonTestBuilder()
             .IsDoctor();
-        
-        //act
     }
 }

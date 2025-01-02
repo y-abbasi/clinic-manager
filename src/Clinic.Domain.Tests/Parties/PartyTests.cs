@@ -19,7 +19,7 @@ public abstract class PartyTests<TBuilder, TOption>
         var sut = sutBuilder.Build();
 
         //assert
-        sut.Should().BeEquivalentTo<TBuilder>(sutBuilder);
+        sut.Should().BeEquivalentTo(sutBuilder);
         sut.Id.Should().NotBeNull();
     }
 }

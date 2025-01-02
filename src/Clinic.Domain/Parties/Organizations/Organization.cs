@@ -1,5 +1,6 @@
 ﻿using Clinic.Domain.Contracts.Parties;
 using Clinic.Domain.Contracts.Parties.Organizations;
+using Clinic.Domain.Parties.PartyRoles.Managers;
 
 namespace Clinic.Domain.Parties.Organizations;
 
@@ -11,7 +12,8 @@ public class Organization : Party, IOrganization
     {
     }
 
-    public Organization(IOrganizationOptions options)
+    public Organization(IOrganizationOptions options, PartyRoleManager partyRoleManager)
+        : base(options, partyRoleManager)
     {
         Id = PartyId.New();
         updateProperties(options);

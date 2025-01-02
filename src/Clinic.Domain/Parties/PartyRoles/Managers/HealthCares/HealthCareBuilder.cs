@@ -8,10 +8,7 @@ namespace Clinic.Domain.Parties.PartyRoles.Managers.HealthCares;
 class HealthCareBuilder : IPartyRoleBuilder
 {
     public string Code { get; } = HealthCare.RoleCode;
+    public Type GetPartyRoleType() => typeof(HealthCare);
 
-    public IPartyRole Build(JObject option)
-    {
-
-        return new HealthCare(option.ToObject<HealthCareOptions>()!);
-    }
+    public Type GetPartyRoleOptionType() => typeof(HealthCareOptions);
 }

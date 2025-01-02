@@ -25,6 +25,11 @@ public abstract class PartyRoleTestBuilder<TBuilder, TEntity> : IPartyRoleTestBu
         return (TEntity)_manager.Build(Code, Payload);
     }
 
+    public  IPartyRoleOptions BuildOptions()
+    {
+        return _manager.BuildOptions(Code, Payload);
+    }
+
     public static implicit operator TBuilder(PartyRoleTestBuilder<TBuilder, TEntity> builder) =>
         (builder as TBuilder)!;
 }

@@ -6,5 +6,6 @@ namespace Clinic.Domain.Parties.PartyRoles.Managers;
 public interface IPartyRoleBuilder
 {
     string Code { get; }
-    IPartyRole Build(JObject option);
+    Type GetPartyRoleType();
+    Type GetPartyRoleOptionType();
 }

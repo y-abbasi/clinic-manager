@@ -9,9 +9,10 @@ class DoctorBuilder : IPartyRoleBuilder
 {
     public string Code { get; } = Doctor.RoleCode;
 
-    public IPartyRole Build(JObject option)
+    public Type GetPartyRoleType()
     {
-
-        return new Doctor(option.ToObject<DoctorOptions>()!);
+        return typeof(Doctor);
     }
+
+    public Type GetPartyRoleOptionType() => typeof(DoctorOptions);
 }
