@@ -12,8 +12,3 @@ public abstract class PartyTestBuilder : IPartyTestBuilder, IPartyOptions
 
     public abstract IParty Build();
 }
-
-public interface IPartyTestBuilder
-{
-    IParty Build();
-}

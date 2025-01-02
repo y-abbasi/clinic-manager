@@ -9,4 +9,13 @@ public class PersonTests : PartyTests<PersonTestBuilder, IPersonOptions>
     {
         return new PersonTestBuilder();
     }
+
+    public void APersonCanBeADoctor()
+    {
+        //arrange
+        var builder = CreateSutBuilder()
+            .IsDoctor();
+        
+        //act
+    }
 }
