@@ -1,3 +1,4 @@
+using Clinic.Domain.Contracts.Parties;
 using Clinic.Domain.Contracts.Parties.People;
 
 namespace Clinic.Domain.Tests.Parties;
