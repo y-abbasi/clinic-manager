@@ -33,11 +33,3 @@ public abstract class PartyRoleTestBuilder<TBuilder, TEntity> : IPartyRoleTestBu
     public static implicit operator TBuilder(PartyRoleTestBuilder<TBuilder, TEntity> builder) =>
         (builder as TBuilder)!;
 }
-
-public class HealthCareTestBuilder : HealthCareTestBuilder<HealthCareTestBuilder>
-{
-    public HealthCareTestBuilder()
-    {
-        WithTitle(TestConstants.SomeName);
-    }
-}

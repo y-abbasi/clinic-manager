@@ -7,3 +7,11 @@ public abstract class HealthCareTestBuilder<TSelf> : PartyRoleTestBuilder<TSelf,
 {
     public override string Code => HealthCare.RoleCode;
 }
+
+public class HealthCareTestBuilder : HealthCareTestBuilder<HealthCareTestBuilder>
+{
+    public HealthCareTestBuilder()
+    {
+        WithTitle(TestConstants.SomeName);
+    }
+}

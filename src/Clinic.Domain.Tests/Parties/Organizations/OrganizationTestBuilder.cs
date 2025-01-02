@@ -6,7 +6,8 @@ using Clinic.Domain.Parties.People;
 
 namespace Clinic.Domain.Tests.Parties.Organizations;
 
-public class OrganizationTestBuilder : PartyTestBuilder, IOrganizationOptions
+public class OrganizationTestBuilder <TSelf> : PartyTestBuilder<TSelf, Organization>, IOrganizationOptions 
+where TSelf : class, IPartyTestBuilder<TSelf, Organization>
 {
     public string Name { get; set; }
 
@@ -18,4 +19,10 @@ public class OrganizationTestBuilder : PartyTestBuilder, IOrganizationOptions
     {
         return new(this, new PartyRoleManager());
     }
+
+
+}
+
+public class OrganizationTestBuilder : OrganizationTestBuilder<OrganizationTestBuilder>
+{
 }

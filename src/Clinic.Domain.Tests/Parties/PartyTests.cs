@@ -3,9 +3,9 @@ using Clinic.Domain.Contracts.Parties.People;
 
 namespace Clinic.Domain.Tests.Parties;
 
-public abstract class PartyTests<TBuilder, TOption>
-    where TBuilder : IPartyTestBuilder, TOption
-    where TOption : IPartyOptions
+public abstract class PartyTests<TBuilder, TAgg>
+    where TBuilder : IPartyTestBuilder<TBuilder, TAgg>
+    where TAgg : IParty
 {
     protected abstract TBuilder CreateSutBuilder();
 
