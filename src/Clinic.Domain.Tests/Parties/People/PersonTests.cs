@@ -1,17 +1,16 @@
-using Clinic.Domain.Contracts.Patients;
 using FluentAssertions;
 
-namespace Clinic.Domain.Tests.Patients;
+namespace Clinic.Domain.Tests.Parties.People;
 
-public class PatientTests
+public class PersonTests
 {
-    private PatientTestBuilder CreateSutBuilder()
+    private PersonTestBuilder CreateSutBuilder()
     {
         return new();
     }
 
     [Fact]
-    public void PatientCreatedSuccessfully()
+    public void PersonCreatedSuccessfully()
     {
         //arrange
         var sutBuilder = CreateSutBuilder();

@@ -1,4 +1,4 @@
-namespace Clinic.Domain.Tests.Patients;
+namespace Clinic.Domain.Tests.Parties;
 
 public class TestConstants
 {
