@@ -7,6 +7,6 @@ public abstract class PartyRole : IPartyRole
 {
     public abstract string Code { get; }
     public abstract string Title { get; protected set; }
-    public virtual bool AcceptedByPartyType(IParty party) => true;
+    public virtual bool ApplicableToParty(IParty party) => true;
 
 }

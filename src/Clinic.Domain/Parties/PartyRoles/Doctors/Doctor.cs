@@ -11,7 +11,7 @@ public class Doctor :PartyRole
     public override string Code => RoleCode;
     public override string Title { get; protected set; }
     public SpecialityType SpecialityType { get; private set; }
-    public override bool AcceptedByPartyType(IParty party)
+    public override bool ApplicableToParty(IParty party)
     {
         return party is Person;
     }
