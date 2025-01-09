@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clinic.Domain", "Clinic.Dom
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clinic.Domain.Contracts", "Clinic.Domain.Contracts\Clinic.Domain.Contracts.csproj", "{A83F1D37-DCC9-477E-9787-DF62E6A7F7EA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Tests", "Core.Tests\Core.Tests.csproj", "{5768960A-A821-4F08-8D58-D68F7C03F7BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,7 @@ Global
 		{70578EA6-C639-410D-AF48-C397381616CB} = {DEB779EB-8A19-4FC2-9CD4-A3C3329C6115}
 		{8C3DC369-CC50-405A-B8A7-17EC41D7E790} = {DEB779EB-8A19-4FC2-9CD4-A3C3329C6115}
 		{A83F1D37-DCC9-477E-9787-DF62E6A7F7EA} = {DEB779EB-8A19-4FC2-9CD4-A3C3329C6115}
+		{5768960A-A821-4F08-8D58-D68F7C03F7BD} = {DEB779EB-8A19-4FC2-9CD4-A3C3329C6115}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{8C3DC369-CC50-405A-B8A7-17EC41D7E790}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -39,5 +42,9 @@ Global
 		{A83F1D37-DCC9-477E-9787-DF62E6A7F7EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A83F1D37-DCC9-477E-9787-DF62E6A7F7EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A83F1D37-DCC9-477E-9787-DF62E6A7F7EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5768960A-A821-4F08-8D58-D68F7C03F7BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5768960A-A821-4F08-8D58-D68F7C03F7BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5768960A-A821-4F08-8D58-D68F7C03F7BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5768960A-A821-4F08-8D58-D68F7C03F7BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
