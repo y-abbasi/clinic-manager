@@ -7,6 +7,7 @@ namespace Clinic.Domain.Parties.Organizations;
 public class Organization : Party, IOrganization
 {
     public string Name { get; private set; } = default!;
+    public virtual PartyType PartyType => PartyType.Organization;
 
     private Organization()
     {

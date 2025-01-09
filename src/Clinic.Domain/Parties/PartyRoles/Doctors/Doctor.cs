@@ -1,5 +1,7 @@
+using Clinic.Domain.Contracts.Parties;
 using Clinic.Domain.Contracts.Parties.PartyRoles;
 using Clinic.Domain.Contracts.Parties.PartyRoles.Doctors;
+using Clinic.Domain.Parties.People;
 
 namespace Clinic.Domain.Parties.PartyRoles.Doctors;
 
@@ -9,6 +11,10 @@ public class Doctor :PartyRole
     public override string Code => RoleCode;
     public override string Title { get; protected set; }
     public SpecialityType SpecialityType { get; private set; }
+    public override bool AcceptedByPartyType(IParty party)
+    {
+        return party is Person;
+    }
 
     public Doctor(DoctorOptions options)
     {

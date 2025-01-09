@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace Clinic.Domain.Parties;
 
-public class Party : AggregateRoot<PartyId>, IParty
+public abstract class Party : AggregateRoot<PartyId>, IParty
 {
     protected Party()
     {
@@ -16,6 +16,8 @@ public class Party : AggregateRoot<PartyId>, IParty
     protected Party(IPartyOptions options, PartyRoleManager partyRoleManager)
     {
         PartyRoles = PartyRoles.AddRange(options.PartyRoles.Select(r => partyRoleManager.Build(r.Code, r)));
+        if (PartyRoles.Any(r => r.AcceptedByPartyType(this)))
+            throw new Exception();
     }
 
     public ImmutableList<IPartyRole> PartyRoles { get; protected set; } = ImmutableList<IPartyRole>.Empty;

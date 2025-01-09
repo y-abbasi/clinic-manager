@@ -11,4 +11,17 @@ public class PersonTests : PartyTests<PersonTestBuilder, Person>
         return new PersonTestBuilder()
             .IsDoctor();
     }
+
+    [Fact]
+    public void PersonCanNotBeAHealthCare()
+    {
+        //arrange
+        var sutBuilder = CreateSutBuilder().WithHealthCareRole();
+        
+        //act
+        var action = () => sutBuilder.Build();
+        
+        //assert
+        action.Should().Throw<Exception>();
+    }
 }

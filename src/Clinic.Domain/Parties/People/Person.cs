@@ -8,6 +8,7 @@ public class Person : Party, IPerson
 {
     public string FirstName { get; private set; } = default!;
     public string LastName { get; private set; } = default!;
+    public virtual PartyType PartyType => PartyType.Person;
 
     private Person()
     {
