@@ -13,10 +13,10 @@ public class AgreementManager : IAgreementOptions, IAgreementCreatorOptions
         return new Agreement(this);
     }
 
-    public PartyId OrganizationId => Organization.Id;
-    public IOrganization Organization { get; set; }
-    public PartyId PractitionerId => Practitioner.Id;
-    public IPerson Practitioner { get; set; }
+    public PartyId OrganizationId => Organization?.Id!;
+    public IOrganization? Organization { get; set; }
+    public PartyId PractitionerId => Practitioner?.Id!;
+    public IPerson? Practitioner { get; set; }
     public Range<DateOnly> AgreementPeriod { get; set; }
     public List<Schedule> Schedules { get; } = new();
     IEnumerable<Schedule> IAgreementOptions.Schedules => Schedules;
@@ -33,13 +33,13 @@ public class AgreementManager : IAgreementOptions, IAgreementCreatorOptions
         return this;
     }
 
-    public AgreementManager WithOrganization(IOrganization organization)
+    public AgreementManager WithOrganization(IOrganization? organization)
     {
         Organization = organization;
         return this;
     }
 
-    public AgreementManager WithPractitioner(IPerson practitioner)
+    public AgreementManager WithPractitioner(IPerson? practitioner)
     {
         Practitioner = practitioner;
         return this;

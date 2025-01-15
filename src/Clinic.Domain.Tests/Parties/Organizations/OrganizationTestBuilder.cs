@@ -25,4 +25,5 @@ where TSelf : class, IPartyTestBuilder<TSelf, Organization>
 
 public class OrganizationTestBuilder : OrganizationTestBuilder<OrganizationTestBuilder>
 {
+
 }

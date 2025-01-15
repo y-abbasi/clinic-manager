@@ -27,4 +27,17 @@ internal class AgreementTestBuilder : IAgreementOptions
     }
 
     public IAgreement Build() => Manager.Build();
+
+    public AgreementTestBuilder WithoutOrganization()    
+    {
+        Manager.WithOrganization(null);
+        return this;
+    }
+    public AgreementTestBuilder WithOrganization(Func<OrganizationTestBuilder, OrganizationTestBuilder>? configure)    
+    {
+        var builder = new OrganizationTestBuilder();
+        builder = configure?.Invoke(builder) ?? builder;
+        Manager.WithOrganization(builder.Build());
+        return this;
+    }
 }

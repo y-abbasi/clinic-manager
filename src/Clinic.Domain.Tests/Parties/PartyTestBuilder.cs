@@ -33,6 +33,11 @@ public abstract class PartyTestBuilder<TSelf, TAgg> : IPartyTestBuilder<TSelf, T
         partyRoles.ToList().ForEach(partyRole => PartyRoles.Add(partyRole));
         return this;
     }
+    public TSelf WithoutAnyRole()
+    {
+        PartyRoles.Clear();
+        return this;
+    }
     public abstract TAgg Build();
     public static implicit operator TSelf(PartyTestBuilder<TSelf, TAgg> builder) => (builder as TSelf)!;
 }
