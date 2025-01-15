@@ -19,6 +19,3 @@ public record Range<T> where T : IComparable<T>
         End = this.End;
     }
 }
-public class RangeIsInvalid: Exception
-{
-}

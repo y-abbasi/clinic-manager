@@ -10,4 +10,3 @@ public interface IAgreementOptions
     Range<DateOnly> AgreementPeriod { get; }
     IEnumerable<Schedule> Schedules { get; }
 }
-public record Schedule(DayOfWeek DayOfWeek, Range<TimeOnly> WorkingTime);
