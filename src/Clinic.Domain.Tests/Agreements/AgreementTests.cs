@@ -33,11 +33,42 @@ public class AgreementTests
         //assert
         act.Should().Throw<DomainException>();
     }
+    
     [Fact]
     public void Constructor_Should_Throw_DomainException_When_OrganizationDoesNotHave_HealthCare_Role()
     {
         //arrange
         SutBuilder.WithOrganization(builder => builder.WithoutAnyRole());
+        
+        //act
+        var act = () => SutBuilder.Build();
+        
+        //assert
+        act.Should().Throw<DomainException>();
+    }
+
+    #endregion
+    
+    #region Exceptional flow for Practitioner
+
+    [Fact]
+    public void Constructor_Should_Throw_DomainException_When_PractitionerIsNull()
+    {
+        //arrange
+        SutBuilder.WithoutPractitioner();
+        
+        //act
+        var act = () => SutBuilder.Build();
+        
+        //assert
+        act.Should().Throw<DomainException>();
+    }
+    
+    [Fact]
+    public void Constructor_Should_Throw_DomainException_When_PractitionerDoesNotHave_Doctor_Role()
+    {
+        //arrange
+        SutBuilder.WithPractitioner(builder => builder.WithoutAnyRole());
         
         //act
         var act = () => SutBuilder.Build();

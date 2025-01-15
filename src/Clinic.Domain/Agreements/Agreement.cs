@@ -8,25 +8,12 @@ using Core.SharedKernels;
 
 namespace Clinic.Domain.Agreements;
 
-public class Agreement : AggregateRoot<AgreementId>, IAgreement
+public partial class Agreement : AggregateRoot<AgreementId>, IAgreement
 {
     public Agreement(IAgreementCreatorOptions  options)
     {
         CheckInvariants(options);
         SetupProperties(options);
-    }
-
-    private void CheckInvariants(IAgreementCreatorOptions options)
-    {
-        GuardAgainstInvalidOrganization(options.Organization);
-    }
-
-    private void GuardAgainstInvalidOrganization(IOrganization? organization)
-    {
-        if(organization == null)
-            throw new DomainException("AGR-01", "Organization is required.");
-        if(organization.PartyRoles.All(r => r is not HealthCare))
-            throw new DomainException("AGR-02", "Organization should be health care.");
     }
 
     private void SetupProperties(IAgreementCreatorOptions options)

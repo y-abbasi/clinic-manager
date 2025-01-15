@@ -33,11 +33,25 @@ internal class AgreementTestBuilder : IAgreementOptions
         Manager.WithOrganization(null);
         return this;
     }
+
+    public AgreementTestBuilder WithoutPractitioner()    
+    {
+        Manager.WithPractitioner(null);
+        return this;
+    }
+    
     public AgreementTestBuilder WithOrganization(Func<OrganizationTestBuilder, OrganizationTestBuilder>? configure)    
     {
         var builder = new OrganizationTestBuilder();
         builder = configure?.Invoke(builder) ?? builder;
         Manager.WithOrganization(builder.Build());
+        return this;
+    }    
+    public AgreementTestBuilder WithPractitioner(Func<PersonTestBuilder, PersonTestBuilder>? configure)    
+    {
+        var builder = new PersonTestBuilder();
+        builder = configure?.Invoke(builder) ?? builder;
+        Manager.WithPractitioner(builder.Build());
         return this;
     }
 }
