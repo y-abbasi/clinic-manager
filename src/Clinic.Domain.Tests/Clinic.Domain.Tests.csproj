@@ -20,7 +20,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Aggrements\" />
       <Folder Include="obj\Debug\net9.0" />
     </ItemGroup>
 

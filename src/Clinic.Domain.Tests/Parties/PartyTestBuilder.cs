@@ -14,6 +14,7 @@ public abstract class PartyTestBuilder<TSelf, TAgg> : IPartyTestBuilder<TSelf, T
 {
     private protected PartyTestBuilder()
     {
+        
     }
     public List<IPartyRoleOptions> PartyRoles { get; } = new();
     IEnumerable<IPartyRoleOptions> IPartyOptions.PartyRoles => PartyRoles;
@@ -25,6 +26,11 @@ public abstract class PartyTestBuilder<TSelf, TAgg> : IPartyTestBuilder<TSelf, T
     public TSelf WithHealthCareRole()
     {
         PartyRoles.Add(new HealthCareTestBuilder().BuildOptions());
+        return this;
+    }
+    public TSelf WithPartyRoles(params IPartyRoleOptions[] partyRoles)
+    {
+        partyRoles.ToList().ForEach(partyRole => PartyRoles.Add(partyRole));
         return this;
     }
     public abstract TAgg Build();

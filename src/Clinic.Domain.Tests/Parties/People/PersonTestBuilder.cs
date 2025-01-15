@@ -15,7 +15,11 @@ public class PersonTestBuilder<TSelf> : PartyTestBuilder<TSelf, Person>, IPerson
         FirstName = TestConstants.SomeName;
         LastName = TestConstants.SomeLastName;
     }
-
+    public TSelf WithFirstName(string firstName)
+    {
+        FirstName = firstName;
+        return this;
+    }
     public override Person Build()
     {
         return new(this, new PartyRoleManager());
@@ -24,4 +28,5 @@ public class PersonTestBuilder<TSelf> : PartyTestBuilder<TSelf, Person>, IPerson
 
 public class PersonTestBuilder : PersonTestBuilder<PersonTestBuilder>, IPartyTestBuilder<PersonTestBuilder,Person>
 {
+
 }

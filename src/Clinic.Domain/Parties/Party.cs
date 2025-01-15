@@ -1,6 +1,7 @@
 using System.Collections.Immutable;
 using Clinic.Domain.Contracts.Parties;
 using Clinic.Domain.Contracts.Parties.PartyRoles;
+using Clinic.Domain.Parties.Exceptions;
 using Clinic.Domain.Parties.PartyRoles.Managers;
 using Core.Domain;
 using Newtonsoft.Json;
@@ -17,7 +18,7 @@ public abstract class Party : AggregateRoot<PartyId>, IParty
     {
         PartyRoles = PartyRoles.AddRange(options.PartyRoles.Select(r => partyRoleManager.Build(r.Code, r)));
         if (PartyRoles.Any(r => !r.ApplicableToParty(this)))
-            throw new Exception();
+            throw new PartyRoleCanNotAssignableToParty();
     }
 
     public ImmutableList<IPartyRole> PartyRoles { get; protected set; } = ImmutableList<IPartyRole>.Empty;
