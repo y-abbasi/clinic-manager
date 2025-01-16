@@ -53,6 +53,3 @@ public class AgreementManager : IAgreementOptions, IAgreementCreatorOptions
     }
 }
 
-public record ScheduleOption(DayOfWeek DayOfWeek, ImmutableList<Range<TimeOnly>> WorkingTimes) : ISchedule
-{
-}

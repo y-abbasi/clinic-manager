@@ -1,4 +1,7 @@
 using Clinic.Domain.Contracts.Parties.PartyRoles;
+using Clinic.Domain.Contracts.Parties.PartyRoles.HealthCares;
+using Clinic.Domain.Parties.PartyRoles.HealthCares;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Clinic.Domain.Parties.PartyRoles.Managers;
