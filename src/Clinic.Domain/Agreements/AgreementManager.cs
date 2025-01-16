@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using Clinic.Domain.Contracts.Agreements;
 using Clinic.Domain.Contracts.Parties;
 using Clinic.Domain.Contracts.Parties.Organizations;
@@ -18,10 +19,10 @@ public class AgreementManager : IAgreementOptions, IAgreementCreatorOptions
     public PartyId PractitionerId => Practitioner?.Id!;
     public IPerson? Practitioner { get; set; }
     public Range<DateOnly> AgreementPeriod { get; set; }
-    public List<Schedule> Schedules { get; set; } = [];
-    IEnumerable<Schedule> IAgreementOptions.Schedules => Schedules;
+    public List<ScheduleOption> Schedules { get; set; } = [];
+    IEnumerable<ISchedule> IAgreementOptions.Schedules => Schedules;
 
-    public AgreementManager AddSchedule(Schedule schedule)
+    public AgreementManager AddSchedule(ScheduleOption schedule)
     {
         Schedules.Add(schedule);
         return this;
@@ -45,9 +46,13 @@ public class AgreementManager : IAgreementOptions, IAgreementCreatorOptions
         return this;
     }
 
-    public AgreementManager WithSchedules(List<Schedule> schedules)
+    public AgreementManager WithSchedules(List<ScheduleOption> schedules)
     {
         Schedules = schedules;
         return this;
     }
+}
+
+public record ScheduleOption(DayOfWeek DayOfWeek, ImmutableList<Range<TimeOnly>> WorkingTimes) : ISchedule
+{
 }

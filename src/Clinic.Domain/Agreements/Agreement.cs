@@ -10,10 +10,11 @@ namespace Clinic.Domain.Agreements;
 
 public partial class Agreement : AggregateRoot<AgreementId>, IAgreement
 {
-    public Agreement(IAgreementCreatorOptions  options)
+    public Agreement(IAgreementCreatorOptions options)
     {
         CheckInvariants(options);
         SetupProperties(options);
+        //CheckPostConditions();
     }
 
     private void SetupProperties(IAgreementCreatorOptions options)
@@ -21,12 +22,16 @@ public partial class Agreement : AggregateRoot<AgreementId>, IAgreement
         OrganizationId = options.OrganizationId;
         PractitionerId = options.PractitionerId;
         AgreementPeriod = options.AgreementPeriod;
-        Schedules = options.Schedules.ToImmutableList();
+        Schedules = options.Schedules.GroupBy(s => s.DayOfWeek)
+            .Select(a =>
+                new Schedule(a.Key, 
+                    a.SelectMany(s => s.WorkingTimes).ToImmutableList()))
+            .ToImmutableList();
     }
 
     public PartyId OrganizationId { get; private set; }
     public PartyId PractitionerId { get; private set; }
     public Range<DateOnly> AgreementPeriod { get; private set; }
-    public ImmutableList<Schedule> Schedules { get; private set; } = ImmutableList<Schedule>.Empty;
-    IEnumerable<Schedule> IAgreementOptions.Schedules => Schedules;
+    private ImmutableList<Schedule> Schedules { get; set; } = ImmutableList<Schedule>.Empty;
+    IEnumerable<ISchedule> IAgreementOptions.Schedules => Schedules;
 }

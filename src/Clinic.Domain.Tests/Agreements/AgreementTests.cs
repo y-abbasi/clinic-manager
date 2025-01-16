@@ -21,10 +21,10 @@ public class AgreementTests
         //assert
         sut.Should().BeEquivalentTo<IAgreementOptions>(SutBuilder);
     }
-    
+
     [Theory]
     [InlineData(9, 10, 11, 12)] //( <) >  
-    [InlineData(13, 16, 9, 10)]  //(< ) > 
+    [InlineData(13, 16, 9, 10)] //(< ) > 
     public void Constructor_Should_CreatesAgreement_InBoundary_Properly(
         int shift1StartHour, int shift1EndHour, int shift2StartHour, int shift2EndHour)
     {
@@ -32,8 +32,10 @@ public class AgreementTests
         SutBuilder.WithoutAnySchedule()
             .WithSchedules([
                 new(DayOfWeek.Monday,
-                    new Range<TimeOnly>(new TimeOnly(shift1StartHour), new TimeOnly(shift1EndHour))),
-                new(DayOfWeek.Monday, new Range<TimeOnly>(new TimeOnly(shift2StartHour), new TimeOnly(shift2EndHour))),
+                [
+                    new Range<TimeOnly>(new TimeOnly(shift1StartHour), new TimeOnly(shift1EndHour)),
+                    new Range<TimeOnly>(new TimeOnly(shift2StartHour), new TimeOnly(shift2EndHour))
+                ]),
             ]);
 
         //act
@@ -42,9 +44,41 @@ public class AgreementTests
         //assert
         sut.Should().BeEquivalentTo<IAgreementOptions>(SutBuilder);
     }
-    
+
+    [Fact]
+    public void Constructor_Should_Merge_Schedules_Of_Same_Day_Properly()
+    {
+        //arrange
+        SutBuilder.WithoutAnySchedule()
+            .WithSchedules([
+                new(DayOfWeek.Monday,
+                [
+                    new Range<TimeOnly>(new TimeOnly(8), new TimeOnly(12)),
+                ]),
+                new(DayOfWeek.Monday,
+                [
+                    new Range<TimeOnly>(new TimeOnly(13), new TimeOnly(18))
+                ]),
+            ]);
+        
+        //act
+        var sut = SutBuilder.Build();
+
+        //assert
+        sut.Should().BeEquivalentTo<IAgreementOptions>(ExpectedBuilder());
+        AgreementTestBuilder ExpectedBuilder() =>
+            SutBuilder.WithoutAnySchedule()
+                .WithSchedules([
+                    new(DayOfWeek.Monday,
+                    [
+                        new Range<TimeOnly>(new TimeOnly(8), new TimeOnly(12)),
+                        new Range<TimeOnly>(new TimeOnly(13), new TimeOnly(18))
+                    ]),
+                ]);
+    }
+
     #endregion
-    
+
     #region Exceptional flow for Organization
 
     [Fact]
@@ -123,14 +157,14 @@ public class AgreementTests
 
     [Theory]
     [InlineData(9, 10, 10, 11)] //( <) >  
-    [InlineData(9, 10, 9, 11)]  //(< ) > 
-    [InlineData(8, 10, 9, 11)]  //( < ) > 
-    [InlineData(9, 11, 8, 9)]   //( < > )
-    [InlineData(9, 11, 9, 10)]  //< ( > ) 
-    [InlineData(9, 11, 8, 10)]  //< ( > ) 
-    [InlineData(9, 11, 8, 11)]  //< ( >) 
-    [InlineData(9, 11, 8, 12)]  //< ( ) > 
-    [InlineData(9, 11, 9, 11)]  //<( )> 
+    [InlineData(9, 10, 9, 11)] //(< ) > 
+    [InlineData(8, 10, 9, 11)] //( < ) > 
+    [InlineData(9, 11, 8, 9)] //( < > )
+    [InlineData(9, 11, 9, 10)] //< ( > ) 
+    [InlineData(9, 11, 8, 10)] //< ( > ) 
+    [InlineData(9, 11, 8, 11)] //< ( >) 
+    [InlineData(9, 11, 8, 12)] //< ( ) > 
+    [InlineData(9, 11, 9, 11)] //<( )> 
     public void Constructor_Should_Throw_DomainException_When_Overlap_Exists_On_Schedules(
         int shift1StartHour, int shift1EndHour, int shift2StartHour, int shift2EndHour)
     {
@@ -138,8 +172,10 @@ public class AgreementTests
         SutBuilder.WithoutAnySchedule()
             .WithSchedules([
                 new(DayOfWeek.Monday,
-                    new Range<TimeOnly>(new TimeOnly(shift1StartHour), new TimeOnly(shift1EndHour))),
-                new(DayOfWeek.Monday, new Range<TimeOnly>(new TimeOnly(shift2StartHour), new TimeOnly(shift2EndHour))),
+                [
+                    new Range<TimeOnly>(new TimeOnly(shift1StartHour), new TimeOnly(shift1EndHour)),
+                    new Range<TimeOnly>(new TimeOnly(shift2StartHour), new TimeOnly(shift2EndHour))
+                ]),
             ]);
 
         //act

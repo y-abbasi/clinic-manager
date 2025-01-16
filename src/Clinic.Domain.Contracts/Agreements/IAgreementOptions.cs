@@ -8,5 +8,5 @@ public interface IAgreementOptions
     PartyId OrganizationId { get; }
     PartyId PractitionerId { get; }
     Range<DateOnly> AgreementPeriod { get; }
-    IEnumerable<Schedule> Schedules { get; }
+    IEnumerable<ISchedule> Schedules { get; }
 }

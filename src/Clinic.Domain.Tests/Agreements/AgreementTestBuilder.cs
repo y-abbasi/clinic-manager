@@ -14,16 +14,16 @@ internal class AgreementTestBuilder : IAgreementOptions
     public PartyId OrganizationId => Manager.OrganizationId;
     public PartyId PractitionerId => Manager.PractitionerId;
     public Range<DateOnly> AgreementPeriod => Manager.AgreementPeriod;
-    public List<Schedule> Schedules { get; } = new();
-    IEnumerable<Schedule> IAgreementOptions.Schedules => Manager.Schedules;
+    public List<ScheduleOption> Schedules { get; } = new();
+    IEnumerable<ISchedule> IAgreementOptions.Schedules => Manager.Schedules;
 
     public AgreementTestBuilder()
     {
         Manager
             .WithOrganization(new OrganizationTestBuilder().WithHealthCareRole().Build())
             .WithPractitioner(new PersonTestBuilder().IsDoctor().Build())
-            .AddSchedule(new Schedule(DayOfWeek.Monday, 
-                new Range<TimeOnly>(new TimeOnly(8), new TimeOnly(12))))
+            .AddSchedule(new ScheduleOption(DayOfWeek.Monday, 
+                [new Range<TimeOnly>(new TimeOnly(8), new TimeOnly(12))]))
             .WithAgreementPeriod(TestConstants.ValidAgreementPeriod);
     }
 
@@ -62,7 +62,7 @@ internal class AgreementTestBuilder : IAgreementOptions
         return this;
     }
 
-    public AgreementTestBuilder WithSchedules(List<Schedule> schedules)
+    public AgreementTestBuilder WithSchedules(List<ScheduleOption> schedules)
     {
         Manager.WithSchedules(schedules);
         return this;
