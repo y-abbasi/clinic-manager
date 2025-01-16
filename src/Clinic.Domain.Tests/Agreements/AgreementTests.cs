@@ -33,8 +33,8 @@ public class AgreementTests
             .WithSchedules([
                 new(DayOfWeek.Monday,
                 [
-                    new Range<TimeOnly>(new TimeOnly(shift1StartHour), new TimeOnly(shift1EndHour)),
-                    new Range<TimeOnly>(new TimeOnly(shift2StartHour), new TimeOnly(shift2EndHour))
+                    new Range<TimeOnly>(new TimeOnly(shift1StartHour, 0), new TimeOnly(shift1EndHour, 0)),
+                    new Range<TimeOnly>(new TimeOnly(shift2StartHour, 0), new TimeOnly(shift2EndHour, 0))
                 ]),
             ]);
 
@@ -53,26 +53,27 @@ public class AgreementTests
             .WithSchedules([
                 new(DayOfWeek.Monday,
                 [
-                    new Range<TimeOnly>(new TimeOnly(8), new TimeOnly(12)),
+                    new Range<TimeOnly>(new TimeOnly(8, 0), new TimeOnly(12, 0)),
                 ]),
                 new(DayOfWeek.Monday,
                 [
-                    new Range<TimeOnly>(new TimeOnly(13), new TimeOnly(18))
+                    new Range<TimeOnly>(new TimeOnly(13, 0), new TimeOnly(18, 0))
                 ]),
             ]);
-        
+
         //act
         var sut = SutBuilder.Build();
 
         //assert
         sut.Should().BeEquivalentTo<IAgreementOptions>(ExpectedBuilder());
+
         AgreementTestBuilder ExpectedBuilder() =>
             SutBuilder.WithoutAnySchedule()
                 .WithSchedules([
                     new(DayOfWeek.Monday,
                     [
-                        new Range<TimeOnly>(new TimeOnly(8), new TimeOnly(12)),
-                        new Range<TimeOnly>(new TimeOnly(13), new TimeOnly(18))
+                        new Range<TimeOnly>(new TimeOnly(8, 0), new TimeOnly(12, 0)),
+                        new Range<TimeOnly>(new TimeOnly(13, 0), new TimeOnly(18, 0))
                     ]),
                 ]);
     }
@@ -157,14 +158,14 @@ public class AgreementTests
 
     [Theory]
     [InlineData(9, 10, 10, 11)] //( <) >  
-    [InlineData(9, 10, 9, 11)] //(< ) > 
-    [InlineData(8, 10, 9, 11)] //( < ) > 
-    [InlineData(9, 11, 8, 9)] //( < > )
-    [InlineData(9, 11, 9, 10)] //< ( > ) 
-    [InlineData(9, 11, 8, 10)] //< ( > ) 
-    [InlineData(9, 11, 8, 11)] //< ( >) 
-    [InlineData(9, 11, 8, 12)] //< ( ) > 
-    [InlineData(9, 11, 9, 11)] //<( )> 
+    [InlineData(9, 10, 9, 11)]  //(< ) > 
+    [InlineData(8, 10, 9, 11)]  //( < ) > 
+    [InlineData(9, 11, 8, 9)]   //( < > )
+    [InlineData(9, 11, 9, 10)]  //<( > ) 
+    [InlineData(9, 11, 8, 10)]  //< ( > ) 
+    [InlineData(9, 11, 8, 11)]  //< ( >) 
+    [InlineData(9, 11, 8, 12)]  //< ( ) > 
+    [InlineData(9, 11, 9, 11)]  //<( )> 
     public void Constructor_Should_Throw_DomainException_When_Overlap_Exists_On_Schedules(
         int shift1StartHour, int shift1EndHour, int shift2StartHour, int shift2EndHour)
     {
@@ -173,8 +174,8 @@ public class AgreementTests
             .WithSchedules([
                 new(DayOfWeek.Monday,
                 [
-                    new Range<TimeOnly>(new TimeOnly(shift1StartHour), new TimeOnly(shift1EndHour)),
-                    new Range<TimeOnly>(new TimeOnly(shift2StartHour), new TimeOnly(shift2EndHour))
+                    new Range<TimeOnly>(new TimeOnly(shift1StartHour, 0), new TimeOnly(shift1EndHour, 0)),
+                    new Range<TimeOnly>(new TimeOnly(shift2StartHour, 0), new TimeOnly(shift2EndHour, 0))
                 ]),
             ]);
 
@@ -184,6 +185,21 @@ public class AgreementTests
         //assert
         act.Should().Throw<DomainException>().Which.Should()
             .BeEquivalentTo(new { Code = "AGR-06", Message = "Overlapping schedules are not supported." });
+    }
+
+    [Fact]
+    public void Constructor_Should_Throw_DomainException_When_Schedule_Has_Conflict_With_Health_Care_WorkingSchedule()
+    {
+        //arrange
+        SutBuilder
+            .WithoutAnySchedule()
+            .WithSchedulesThatConflictWithHealthCareWorkingSchedule();
+        //act
+        var act = () => SutBuilder.Build();
+
+        //assert
+        act.Should().Throw<DomainException>().Which.Should()
+            .BeEquivalentTo(new { Code = "AGR-07", Message = "Schedule should be in health care working times." });
     }
 
     #endregion

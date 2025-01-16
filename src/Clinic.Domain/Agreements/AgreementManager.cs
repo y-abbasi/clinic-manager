@@ -20,7 +20,7 @@ public class AgreementManager : IAgreementOptions, IAgreementCreatorOptions
     public IPerson? Practitioner { get; set; }
     public Range<DateOnly> AgreementPeriod { get; set; }
     public List<ScheduleOption> Schedules { get; set; } = [];
-    IEnumerable<ISchedule> IAgreementOptions.Schedules => Schedules;
+    IEnumerable<IScheduleOption> IAgreementOptions.Schedules => Schedules;
 
     public AgreementManager AddSchedule(ScheduleOption schedule)
     {

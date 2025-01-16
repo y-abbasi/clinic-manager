@@ -4,5 +4,5 @@ namespace Clinic.Domain.Contracts.Parties.PartyRoles.HealthCares;
 
 public interface IAmWorkStation
 {
-    IEnumerable<ISchedule> WorkingSchedules { get; }
+    IEnumerable<IScheduleOption> WorkingSchedules { get; }
 }

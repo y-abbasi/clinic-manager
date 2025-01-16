@@ -33,5 +33,5 @@ public partial class Agreement : AggregateRoot<AgreementId>, IAgreement
     public PartyId PractitionerId { get; private set; }
     public Range<DateOnly> AgreementPeriod { get; private set; }
     private ImmutableList<Schedule> Schedules { get; set; } = ImmutableList<Schedule>.Empty;
-    IEnumerable<ISchedule> IAgreementOptions.Schedules => Schedules;
+    IEnumerable<IScheduleOption> IAgreementOptions.Schedules => Schedules;
 }

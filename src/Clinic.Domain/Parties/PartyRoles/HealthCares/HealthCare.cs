@@ -14,7 +14,7 @@ public class HealthCare : PartyRole, IAmWorkStation
     public override string Title { get; protected set; } = null!;
 
     public ImmutableList<Schedule> WorkingSchedules { get; protected set; }
-    IEnumerable<ISchedule> IAmWorkStation.WorkingSchedules => WorkingSchedules;
+    IEnumerable<IScheduleOption> IAmWorkStation.WorkingSchedules => WorkingSchedules;
 
     public override bool ApplicableToParty(IParty party)
     {

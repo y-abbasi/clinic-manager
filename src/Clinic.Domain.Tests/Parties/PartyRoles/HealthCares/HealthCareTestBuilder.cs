@@ -7,12 +7,12 @@ using Newtonsoft.Json.Linq;
 
 namespace Clinic.Domain.Tests.Parties.PartyRoles.HealthCares;
 
-public abstract class HealthCareTestBuilder<TSelf> : PartyRoleTestBuilder<TSelf, HealthCare>, IAmWorkStation
+public abstract class HealthCareTestBuilder<TSelf> : PartyRoleTestBuilder<TSelf, HealthCare>//, IAmWorkStation
     where TSelf : class, IPartyRoleTestBuilder<TSelf, HealthCare>
 {
     public override string Code => HealthCare.RoleCode;
 
-    public IEnumerable<ISchedule> WorkingSchedules => 
+    public IEnumerable<ScheduleOption> WorkingSchedules => 
         Payload["WorkingSchedules"].ToObject<ImmutableList<ScheduleOption>>();
     public TSelf WithWorkingSchedules(IEnumerable<ISchedule> schedules)
     {
@@ -28,8 +28,11 @@ public class HealthCareTestBuilder : HealthCareTestBuilder<HealthCareTestBuilder
     {
         WithTitle(TestConstants.SomeName);
         WithWorkingSchedules([
+            new Schedule(DayOfWeek.Monday, [
+                new Range<TimeOnly>(new TimeOnly(8, 0), new TimeOnly(18, 0))
+            ]),
             new Schedule(DayOfWeek.Friday, [
-                new Range<TimeOnly>(new TimeOnly(8), new TimeOnly(12))
+                new Range<TimeOnly>(new TimeOnly(8, 0), new TimeOnly(18, 0))
             ])
         ]);
     }
