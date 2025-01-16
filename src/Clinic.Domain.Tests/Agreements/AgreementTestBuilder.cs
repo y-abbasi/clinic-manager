@@ -22,7 +22,8 @@ internal class AgreementTestBuilder : IAgreementOptions
         Manager
             .WithOrganization(new OrganizationTestBuilder().WithHealthCareRole().Build())
             .WithPractitioner(new PersonTestBuilder().IsDoctor().Build())
-            .AddSchedule(new Schedule(DayOfWeek.Monday, new Range<TimeOnly>(new TimeOnly(8), new TimeOnly(12))))
+            .AddSchedule(new Schedule(DayOfWeek.Monday, 
+                new Range<TimeOnly>(new TimeOnly(8), new TimeOnly(12))))
             .WithAgreementPeriod(TestConstants.ValidAgreementPeriod);
     }
 
@@ -52,6 +53,18 @@ internal class AgreementTestBuilder : IAgreementOptions
         var builder = new PersonTestBuilder();
         builder = configure?.Invoke(builder) ?? builder;
         Manager.WithPractitioner(builder.Build());
+        return this;
+    }
+
+    public AgreementTestBuilder WithoutAnySchedule()
+    {
+        Manager.WithSchedules([]);
+        return this;
+    }
+
+    public AgreementTestBuilder WithSchedules(List<Schedule> schedules)
+    {
+        Manager.WithSchedules(schedules);
         return this;
     }
 }

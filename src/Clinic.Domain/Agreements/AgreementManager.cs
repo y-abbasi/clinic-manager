@@ -18,7 +18,7 @@ public class AgreementManager : IAgreementOptions, IAgreementCreatorOptions
     public PartyId PractitionerId => Practitioner?.Id!;
     public IPerson? Practitioner { get; set; }
     public Range<DateOnly> AgreementPeriod { get; set; }
-    public List<Schedule> Schedules { get; } = new();
+    public List<Schedule> Schedules { get; set; } = [];
     IEnumerable<Schedule> IAgreementOptions.Schedules => Schedules;
 
     public AgreementManager AddSchedule(Schedule schedule)
@@ -42,6 +42,12 @@ public class AgreementManager : IAgreementOptions, IAgreementCreatorOptions
     public AgreementManager WithPractitioner(IPerson? practitioner)
     {
         Practitioner = practitioner;
+        return this;
+    }
+
+    public AgreementManager WithSchedules(List<Schedule> schedules)
+    {
+        Schedules = schedules;
         return this;
     }
 }

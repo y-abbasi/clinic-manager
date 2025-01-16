@@ -18,4 +18,9 @@ public record Range<T> where T : IComparable<T>
         Start = this.Start;
         End = this.End;
     }
+
+    public bool HasOverlap(Range<T> another)
+    {
+        return another.InRange(this.Start) || another.InRange(this.End);
+    }
 }
