@@ -16,6 +16,7 @@ public abstract class Party : AggregateRoot<PartyId>, IParty
     
     protected Party(IPartyOptions options, PartyRoleManager partyRoleManager)
     {
+        Id = PartyId.New();
         PartyRoles = PartyRoles.AddRange(options.PartyRoles.Select(r => partyRoleManager.Build(r.Code, r)));
         if (PartyRoles.Any(r => !r.ApplicableToParty(this)))
             throw new PartyRoleCanNotAssignableToParty();

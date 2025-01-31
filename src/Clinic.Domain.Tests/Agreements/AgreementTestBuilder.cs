@@ -1,15 +1,21 @@
 using Clinic.Domain.Agreements;
 using Clinic.Domain.Contracts.Agreements;
 using Clinic.Domain.Contracts.Parties;
+using Clinic.Domain.Contracts.Sessions;
+using Clinic.Domain.Parties.Organizations;
+using Clinic.Domain.Parties.People;
 using Clinic.Domain.Tests.Parties.Organizations;
 using Clinic.Domain.Tests.Parties.People;
 using Core.SharedKernels;
+using NSubstitute;
+using NSubstitute.Extensions;
 
 namespace Clinic.Domain.Tests.Agreements;
 
 internal class AgreementTestBuilder : IAgreementOptions
 {
     public readonly AgreementManager Manager = new();
+    private readonly ISessionService _sessionService = Substitute.For<ISessionService>();
 
     public PartyId OrganizationId => Manager.OrganizationId;
     public PartyId PractitionerId => Manager.PractitionerId;
@@ -19,17 +25,21 @@ internal class AgreementTestBuilder : IAgreementOptions
 
     public AgreementTestBuilder()
     {
-        Manager
-            .WithOrganization(new OrganizationTestBuilder().WithHealthCareRole().Build())
-            .WithPractitioner(new PersonTestBuilder().IsDoctor().Build())
+        WithOrganization(b => b.WithHealthCareRole(
+                builder => builder.WithWorkingSchedulesAtMondayAndWednesdayAt8_00To_20_00()))
             .WithSchedules([
-                new ScheduleOption(DayOfWeek.Friday,
-                    [new Range<TimeOnly>(new TimeOnly(9, 0), new TimeOnly(10, 0))])
+                TestConstants.ScheduleAtMondayFrom8_00To20_00
             ])
+            .WithPractitioner(builder => builder.IsDoctor());
+        Manager
             .WithAgreementPeriod(TestConstants.ValidAgreementPeriod);
     }
 
     public IAgreement Build() => Manager.Build();
+
+    public Organization Organization { get; set; }
+
+    public Person Practitioner { get; set; }
 
     public AgreementTestBuilder WithoutOrganization()
     {
@@ -47,7 +57,8 @@ internal class AgreementTestBuilder : IAgreementOptions
     {
         var builder = new OrganizationTestBuilder();
         builder = configure?.Invoke(builder) ?? builder;
-        Manager.WithOrganization(builder.Build());
+        Organization = builder.Build();
+        Manager.WithOrganization(Organization);
         return this;
     }
 
@@ -55,6 +66,7 @@ internal class AgreementTestBuilder : IAgreementOptions
     {
         var builder = new PersonTestBuilder();
         builder = configure?.Invoke(builder) ?? builder;
+        Practitioner = builder.Build();
         Manager.WithPractitioner(builder.Build());
         return this;
     }
@@ -71,13 +83,46 @@ internal class AgreementTestBuilder : IAgreementOptions
         return this;
     }
 
-    public AgreementTestBuilder WithSchedulesThatConflictWithHealthCareWorkingSchedule()
+    public AgreementTestBuilder WithSchedulesThatConflictWithHealthCaresWorkingSchedule()
     {
-        Manager.WithSchedules([
-            new ScheduleOption(DayOfWeek.Thursday, [
-                new Range<TimeOnly>(new TimeOnly(8), new TimeOnly(18))
-            ])
-        ]);
+        Manager
+            .WithOrganization(new OrganizationTestBuilder()
+                .WithHealthCareRole(b => b.WithWorkingSchedules([
+                    new Schedule(DayOfWeek.Monday, [
+                        new Range<TimeOnly>(new TimeOnly(8, 0), new TimeOnly(18, 0))
+                    ]),
+                    new Schedule(DayOfWeek.Friday, [
+                        new Range<TimeOnly>(new TimeOnly(8, 0), new TimeOnly(18, 0))
+                    ])
+                ])).Build()).WithSchedules([
+                new ScheduleOption(DayOfWeek.Thursday, [
+                    new Range<TimeOnly>(new TimeOnly(8), new TimeOnly(18))
+                ])
+            ]);
+        return this;
+    }
+
+    public Task<ISession> GetOrCreateSession(DateTime date)
+    {
+        return Build().GetOrCreateSessionAsync(_sessionService, date);
+    }
+
+    public ISession ThereIsASessionFor(DateOnly date)
+    {
+        var session = Substitute.For<ISession>();
+        _sessionService.GetAsync(new SessionId(OrganizationId, PractitionerId, date))
+            .Returns(Task.FromResult(session));
+
+        return session;
+    }
+
+    public AgreementTestBuilder ThereIsNotAnySessionFor(DateTime date)
+    {
+        _sessionService.GetAsync(Arg.Is<SessionId>(s =>
+                s.OrganizationId == OrganizationId && s.PractitionerId == PractitionerId &&
+                s.Date == DateOnly.FromDateTime(date)))
+            .Returns(Task.FromResult<ISession?>(null));
+
         return this;
     }
 }

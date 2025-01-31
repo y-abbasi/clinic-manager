@@ -1,12 +1,22 @@
+using Clinic.Domain.Agreements.Exceptions;
 using Clinic.Domain.Contracts.Agreements;
+using Clinic.Domain.Contracts.Sessions;
 using Core.Domain;
 using Core.SharedKernels;
+using NSubstitute;
+using Xunit.Abstractions;
 
 namespace Clinic.Domain.Tests.Agreements;
 
 public class AgreementTests
 {
+    private readonly ITestOutputHelper _testOutputHelper;
     AgreementTestBuilder SutBuilder = new();
+
+    public AgreementTests(ITestOutputHelper testOutputHelper)
+    {
+        _testOutputHelper = testOutputHelper;
+    }
 
     #region Happy Path
 
@@ -20,6 +30,7 @@ public class AgreementTests
 
         //assert
         sut.Should().BeEquivalentTo<IAgreementOptions>(SutBuilder);
+        sut.Id.Value.Should().NotBe(Guid.Empty);
     }
 
     [Theory]
@@ -158,14 +169,14 @@ public class AgreementTests
 
     [Theory]
     [InlineData(9, 10, 10, 11)] //( <) >  
-    [InlineData(9, 10, 9, 11)]  //(< ) > 
-    [InlineData(8, 10, 9, 11)]  //( < ) > 
-    [InlineData(9, 11, 8, 9)]   //( < > )
-    [InlineData(9, 11, 9, 10)]  //<( > ) 
-    [InlineData(9, 11, 8, 10)]  //< ( > ) 
-    [InlineData(9, 11, 8, 11)]  //< ( >) 
-    [InlineData(9, 11, 8, 12)]  //< ( ) > 
-    [InlineData(9, 11, 9, 11)]  //<( )> 
+    [InlineData(9, 10, 9, 11)] //(< ) > 
+    [InlineData(8, 10, 9, 11)] //( < ) > 
+    [InlineData(9, 11, 8, 9)] //( < > )
+    [InlineData(9, 11, 9, 10)] //<( > ) 
+    [InlineData(9, 11, 8, 10)] //< ( > ) 
+    [InlineData(9, 11, 8, 11)] //< ( >) 
+    [InlineData(9, 11, 8, 12)] //< ( ) > 
+    [InlineData(9, 11, 9, 11)] //<( )> 
     public void Constructor_Should_Throw_DomainException_When_Overlap_Exists_On_Schedules(
         int shift1StartHour, int shift1EndHour, int shift2StartHour, int shift2EndHour)
     {
@@ -193,7 +204,7 @@ public class AgreementTests
         //arrange
         SutBuilder
             .WithoutAnySchedule()
-            .WithSchedulesThatConflictWithHealthCareWorkingSchedule();
+            .WithSchedulesThatConflictWithHealthCaresWorkingSchedule();
         //act
         var act = () => SutBuilder.Build();
 
@@ -202,5 +213,62 @@ public class AgreementTests
             .BeEquivalentTo(new { Code = "AGR-07", Message = "Schedule should be in health care working times." });
     }
 
+    #endregion
+
+    #region Happy Path for GetOrCreateSession
+
+    [Fact]
+    public async Task GetOrCreateSession_CreatesNewSession_IfNoneExists()
+    {
+        //arrange
+        var date = TestConstants.SomeDateTimeAtMonday_9h_30mAm;
+        SutBuilder.ThereIsNotAnySessionFor(date);
+
+        //act
+        var session = await SutBuilder.GetOrCreateSession(date);
+
+        //assert
+        session.Id.Should().BeEquivalentTo(new SessionId(SutBuilder.OrganizationId,
+            SutBuilder.PractitionerId,
+            DateOnly.FromDateTime(date)));
+    }
+
+    [Fact]
+    public async Task GetOrCreateSession_Returns_ExistingSession_If_AlreadyPresent()
+    {
+        //arrange
+        var date = TestConstants.SomeDateTimeAtMonday_9h_30mAm;
+        var expected = SutBuilder.ThereIsASessionFor(DateOnly.FromDateTime(date));
+
+        //act
+        var session = await SutBuilder.GetOrCreateSession(date);
+
+        //assert
+        session.Should().Be(expected);
+    }
+
+    #endregion
+
+    #region Exceptional flow for GetOrCreateSessions
+
+    [Fact]
+    public async Task GetOrCreateSession_Throws_Exception_If_SessionDateOutOfAgreementSchedule()
+    {
+        //arrange
+        var date = TestConstants.SomeDateTimeAtWednesday_9h_30mAm; //at sunday
+        SutBuilder
+            .WithOrganization(b => b.WithHealthCareRole(
+                builder => builder.WithWorkingSchedulesAtMondayAndWednesdayAt8_00To_20_00()))
+            .WithSchedules([
+                TestConstants.ScheduleAtMondayFrom8_00To20_00
+            ])
+            .ThereIsNotAnySessionFor(date);
+        //act
+        var action = () => SutBuilder.GetOrCreateSession(date);
+
+        //assert
+        await action.Should().ThrowAsync<OrganizationOrPractitionerNotAvailableAtTheRequestedDate>();
+    }
+    
     #endregion
 }

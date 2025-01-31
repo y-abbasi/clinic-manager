@@ -7,19 +7,28 @@ using Newtonsoft.Json.Linq;
 
 namespace Clinic.Domain.Tests.Parties.PartyRoles.HealthCares;
 
-public abstract class HealthCareTestBuilder<TSelf> : PartyRoleTestBuilder<TSelf, HealthCare>//, IAmWorkStation
+public abstract class HealthCareTestBuilder<TSelf> : PartyRoleTestBuilder<TSelf, HealthCare> //, IAmWorkStation
     where TSelf : class, IPartyRoleTestBuilder<TSelf, HealthCare>
 {
     public override string Code => HealthCare.RoleCode;
 
-    public IEnumerable<ScheduleOption> WorkingSchedules => 
+    public IEnumerable<ScheduleOption> WorkingSchedules =>
         Payload["WorkingSchedules"].ToObject<ImmutableList<ScheduleOption>>();
-    public TSelf WithWorkingSchedules(IEnumerable<ISchedule> schedules)
+
+    public TSelf WithWorkingSchedules(IEnumerable<IScheduleOption> schedules)
     {
         Payload["WorkingSchedules"] = JToken.FromObject(schedules);
         return this;
     }
 
+    public TSelf WithWorkingSchedulesAtMondayAndWednesdayAt8_00To_20_00()
+    {
+        WithWorkingSchedules([
+            Agreements.TestConstants.ScheduleAtMondayFrom8_00To20_00,
+            Agreements.TestConstants.ScheduleAtWednesdayFrom8_00To20_00
+        ]);
+        return this;
+    }
 }
 
 public class HealthCareTestBuilder : HealthCareTestBuilder<HealthCareTestBuilder>

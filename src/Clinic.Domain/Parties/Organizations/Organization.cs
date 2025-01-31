@@ -16,7 +16,6 @@ public class Organization : Party, IOrganization
     public Organization(IOrganizationOptions options, PartyRoleManager partyRoleManager)
         : base(options, partyRoleManager)
     {
-        Id = PartyId.New();
         updateProperties(options);
     }
 
