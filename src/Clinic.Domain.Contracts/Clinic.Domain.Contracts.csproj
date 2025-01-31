@@ -7,23 +7,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="obj\Debug\net9.0" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Core\Core.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Compile Remove="obj\**" />
-    </ItemGroup>
 
-    <ItemGroup>
-      <EmbeddedResource Remove="obj\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="obj\**" />
-    </ItemGroup>
 
 </Project>

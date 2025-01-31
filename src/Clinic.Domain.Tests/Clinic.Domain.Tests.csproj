@@ -21,7 +21,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="obj\Debug\net9.0" />
       <Folder Include="Sessions\" />
     </ItemGroup>
 
@@ -29,17 +28,5 @@
       <ProjectReference Include="..\Clinic.Domain\Clinic.Domain.csproj" />
       <ProjectReference Include="..\Core\Core.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Compile Remove="obj\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <EmbeddedResource Remove="obj\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="obj\**" />
-    </ItemGroup>
-
+    
 </Project>

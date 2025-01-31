@@ -7,10 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="obj\Debug\net9.0" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Clinic.Domain.Contracts\Clinic.Domain.Contracts.csproj" />
       <ProjectReference Include="..\Core\Core.csproj" />
     </ItemGroup>
@@ -19,16 +15,5 @@
       <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Compile Remove="obj\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <EmbeddedResource Remove="obj\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="obj\**" />
-    </ItemGroup>
 
 </Project>
