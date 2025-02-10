@@ -21,6 +21,7 @@ public record Range<T> where T : IComparable<T>
 
     public bool HasOverlap(Range<T> another)
     {
-        return another.InRange(this.Start) || another.InRange(this.End);
+        return Start.CompareTo(another.End) <= 0 &&
+               End.CompareTo(another.Start) >= 0;
     }
 }

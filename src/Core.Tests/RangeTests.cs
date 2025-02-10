@@ -60,13 +60,14 @@ public class RangeTests
         var range = ctor.Invoke([start, end]);
 
         //act
-        var result = (bool)range.GetType().GetMethod("InRange").Invoke(range, parameters:[value]);
+        var result = (bool)range.GetType().GetMethod("InRange").Invoke(range, parameters: [value]);
 
         //assert
         result.Should().Be(true);
     }
+
     [Theory]
-    [InlineData(10, 10, 19, typeof(int))]
+    [InlineData(10, 10, 9, typeof(int))]
     [InlineData(10, 11, 12, typeof(long))]
     [InlineData("2025-1-1", "2025-01-02", "2025-1-3", typeof(DateTime))]
     [InlineData("2025-1-1", "2025-01-02", "2024-12-30", typeof(DateOnly))]
@@ -82,11 +83,54 @@ public class RangeTests
         var range = ctor.Invoke([start, end]);
 
         //act
-        var result = (bool)range.GetType().GetMethod("InRange").Invoke(range, parameters:[value]);
+        var result = (bool)range.GetType().GetMethod("InRange").Invoke(range, parameters: [value]);
 
         //assert
         result.Should().Be(false);
     }
+
+    [Theory]
+    [InlineData(5, 10, 10, 12)]
+    [InlineData(5, 10, 7, 12)]
+    [InlineData(5, 10, 7, 8)]
+    [InlineData(5, 10, 1, 5)]
+    [InlineData(5, 10, 1, 12)]
+    [InlineData(10, 12, 5, 10)]
+    [InlineData(7, 12, 5, 10)]
+    [InlineData(7, 8, 5, 10)]
+    [InlineData(1, 5, 5, 10)]
+    [InlineData(1, 12, 5, 10)]
+    public void HasOverlap_Should_Return_True_If_Overlap_Exists_Between_Two_Ranges(int start1, int end1,
+        int start2, int end2)
+    {
+        //arrange
+        var range1 = new Range<int>(start1, end1);
+        var range2 = new Range<int>(start2, end2);
+
+        //act
+        var result = range1.HasOverlap(range2);
+
+        //assert
+        result.Should().Be(true);
+    }
+
+    [Theory]
+    [InlineData(5, 10, 11, 12)]
+    [InlineData(5, 10, 1, 4)]
+    public void HasOverlap_Should_Return_False_If_Overlap_Exists_Between_Two_Ranges(int start1, int end1,
+        int start2, int end2)
+    {
+        //arrange
+        var range1 = new Range<int>(start1, end1);
+        var range2 = new Range<int>(start2, end2);
+
+        //act
+        var result = range1.HasOverlap(range2);
+
+        //assert
+        result.Should().Be(false);
+    }
+
 
     public static object ChangeType(object value, Type targetType)
     {
