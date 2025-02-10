@@ -15,10 +15,11 @@ public class SessionTests
         var appointmentTime=TestConstants.SomeDateTimeAtMonday.At(10, 0);
         
         //act
-        sut.SetAppointment(appointmentTime, TestConstants.SomePerson);
+        sut.SetAppointment(appointmentTime, TestConstants.SomePerson, TestConstants.SomeValidDuration);
         
         //assert
         sut.Appointments.Should().Contain(appointment => appointment.Time == appointmentTime &&
-                                                         appointment.Patient == TestConstants.SomePerson.Id);
+                                                         appointment.Patient == TestConstants.SomePerson.Id &&
+                                                         appointment.DurationMinute == TestConstants.SomeValidDuration);
     }
 }

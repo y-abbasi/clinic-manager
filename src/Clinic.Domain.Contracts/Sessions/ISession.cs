@@ -6,7 +6,7 @@ namespace Clinic.Domain.Contracts.Sessions;
 
 public interface ISession : IAggregateRoot<SessionId>
 {
-    void SetAppointment(DateTime at, IPerson patient);
+    void SetAppointment(DateTime at, IPerson patient, int durationMinute);
     IEnumerable<IAppointment> Appointments { get; }
 }
 
@@ -14,6 +14,7 @@ public interface IAppointment : IEntity<AppointmentId>
 {
     DateTime Time { get; }
     PartyId Patient { get; }
+    int DurationMinute { get; }
 }
 
 public record SessionId(PartyId OrganizationId, PartyId PractitionerId, DateOnly Date);
