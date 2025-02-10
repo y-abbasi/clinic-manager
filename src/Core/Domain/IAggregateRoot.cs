@@ -1,6 +1,5 @@
 namespace Core.Domain;
 
-public interface IAggregateRoot<out TKey>
+public interface IAggregateRoot<out TKey>:IEntity<TKey>
 {
-    TKey Id { get; }
 }

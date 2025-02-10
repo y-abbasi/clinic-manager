@@ -1,3 +1,6 @@
+using System.Collections.Immutable;
+using Clinic.Domain.Contracts.Parties;
+using Clinic.Domain.Contracts.Parties.People;
 using Clinic.Domain.Contracts.Sessions;
 using Core.Domain;
 
@@ -9,4 +12,18 @@ public class Session : AggregateRoot<SessionId>, ISession
     {
         Id = new SessionId(option.OrganizationId, option.PractitionerId, option.Date);
     }
+
+    public void SetAppointment(DateTime at, IPerson patient)
+    {
+        Appointments = Appointments.Add(new Appointment(at, patient.Id));
+    }
+
+    private ImmutableArray<IAppointment> Appointments { get; set; } = [];
+    IEnumerable<IAppointment> ISession.Appointments => Appointments;
+}
+
+public class Appointment(DateTime time, PartyId patient) : Entity<AppointmentId>, IAppointment
+{
+    public DateTime Time { get; } = time;
+    public PartyId Patient { get; } = patient;
 }

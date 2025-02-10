@@ -44,14 +44,14 @@ public partial class Agreement : AggregateRoot<AgreementId>, IAgreement
               await CreateNewSession(date);
     }
 
-    private async Task<ISession> CreateNewSession(DateTime date)
+    private Task<ISession> CreateNewSession(DateTime date)
     {
         if (Schedules.All(w => w.DayOfWeek != date.DayOfWeek))
             throw new OrganizationOrPractitionerNotAvailableAtTheRequestedDate();
-        return new Session(new SessionManager()
+        return Task.FromResult<ISession>(new Session(new SessionManager()
             .WithOrganization(OrganizationId)
             .WithPractitioner(PractitionerId)
-            .WithDate(DateOnly.FromDateTime(date)));
+            .WithDate(DateOnly.FromDateTime(date))));
     }
 
     IEnumerable<IScheduleOption> IAgreementOptions.Schedules => Schedules;

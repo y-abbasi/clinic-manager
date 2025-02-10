@@ -2,8 +2,7 @@ namespace Clinic.Domain.Contracts.Parties;
 
 public record PartyId(Guid Value)
 {
-    public static PartyId New()
+    public PartyId() : this(Guid.NewGuid())
     {
-        return new(Guid.NewGuid());
     }
 }

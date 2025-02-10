@@ -21,10 +21,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Sessions\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Clinic.Domain\Clinic.Domain.csproj" />
       <ProjectReference Include="..\Core\Core.csproj" />
     </ItemGroup>

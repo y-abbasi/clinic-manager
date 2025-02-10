@@ -1,6 +1,5 @@
 namespace Core.Domain;
 
-public abstract class AggregateRoot<TKey> : IAggregateRoot<TKey>
+public abstract class AggregateRoot<TKey> : Entity<TKey>, IAggregateRoot<TKey>
 {
-    public TKey Id { get; protected init; }
 }

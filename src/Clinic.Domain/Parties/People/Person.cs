@@ -18,7 +18,7 @@ public class Person : Party, IPerson
     public Person(IPersonOptions options, PartyRoleManager partyRoleManager)
         : base(options, partyRoleManager)
     {
-        Id = PartyId.New();
+        Id = new PartyId();
         checkInvariants(options);
         updateProperties(options);
     }
