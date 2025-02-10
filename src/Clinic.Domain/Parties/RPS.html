@@ -6,21 +6,57 @@
     <div> Select your option:
         <form name="frm">
             <ul>
-                <li><label><input type="radio" value="Rock" name="op"> Rock</label></li>
-                <li><label><input type="radio" value="Paper" name="op"> Paper</label></li>
-                <li><label><input type="radio" value="Scissors" name="op"> Scissorse</label></li>
+                <li><label><input type="radio" value="0" name="op"> Rock</label></li>
+                <li><label><input type="radio" value="1" name="op"> Paper</label></li>
+                <li><label><input type="radio" value="2" name="op"> Scissorse</label></li>
             </ul>
 
-            <button type="button" onclick="play(Event)">Go</button>
+            <button type="button" onclick="play(this)">Go</button>
         </form>
     </div>
+    <table>
+        <thead>
+        <tr>
+            <th>HOSSEIN</th>
+            <th>COMPUTER</th>
+        </tr>
+        </thead>
+        <tr>
+            <td id="hossein"></td>
+            <td id="computer"></td>
+        </tr>
+    </table>
     <script>
-        var options = ["Rock", "Paper", "Scissors"];
+        const options = ["Rock", "Paper", "Scissors"];
+        let hossein = 0, comp = 0;
+
         function play(e) {
-            
-            console.log("HI I am here!!!!!!");
+            let selected = null;
+            for (let el of document.getElementsByName('op'))
+                if (el.checked) selected = el.value;
+            console.log(selected)
+            var computer = Math.floor(Math.random() * 3);
+            console.log(options[computer]);
+            if (selected == 0 && computer == 1)
+                comp++;
+            if (selected == 0 && computer == 2)
+                hossein++;
+            if (selected == 1 && computer == 0)
+                hossein++;
+            if (selected == 1 && computer == 2)
+                comp++;
+            if (selected == 2 && computer == 0)
+                comp++;
+            if (selected == 2 && computer == 1)
+                hossein++;
+            printResult();
             return false;
         }
+        function printResult(){
+            document.getElementById('hossein').innerText = hossein;
+            document.getElementById('computer').innerText = comp;
+        }
+        printResult();
     </script>
 </head>
 <body>
