@@ -21,7 +21,7 @@ public abstract class PartyTestBuilder<TSelf, TAgg> : IPartyTestBuilder<TSelf, T
 
     public TSelf IsDoctor()
     {
-        PartyRoles.Add(new DoctorTestBuilder().BuildOptions());
+        PartyRoles.Add(new DoctorTestBuilder());
         return this;
     }
 
@@ -29,7 +29,7 @@ public abstract class PartyTestBuilder<TSelf, TAgg> : IPartyTestBuilder<TSelf, T
     {
         var builder = new HealthCareTestBuilder();
         configure?.Invoke(builder);
-        PartyRoles.Add(builder.BuildOptions());
+        PartyRoles.Add(builder);
         return this;
     }
 

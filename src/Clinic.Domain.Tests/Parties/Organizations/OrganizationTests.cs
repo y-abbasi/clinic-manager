@@ -9,8 +9,8 @@ namespace Clinic.Domain.Tests.Parties.Organizations;
 
 public class OrganizationTests : PartyTests<OrganizationTestBuilder, Organization>
 {
-    protected override IPartyRoleOptions[] AcceptableRoles =>[new HealthCareTestBuilder().BuildOptions()];
-    protected override IPartyRoleOptions[] UnAcceptableRoles => [new DoctorTestBuilder().BuildOptions()]; 
+    protected override IPartyRoleOptions[] AcceptableRoles =>[new HealthCareTestBuilder()];
+    protected override IPartyRoleOptions[] UnAcceptableRoles => [new DoctorTestBuilder()]; 
 
 
     protected override OrganizationTestBuilder CreateSutBuilder()

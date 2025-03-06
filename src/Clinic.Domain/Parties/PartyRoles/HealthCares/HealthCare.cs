@@ -25,21 +25,21 @@ public class HealthCare : PartyRole, IAmWorkStation
     {
         
     }
-    public HealthCare(HealthCareOptions options)
+    public HealthCare(IHealthCareOptions options)
     {
         CheckInvariants(options);
         UpdateProperties(options);
     }
 
-    private void CheckInvariants(HealthCareOptions options)
+    private void CheckInvariants(IHealthCareOptions options)
     {
         if (string.IsNullOrEmpty(options?.Title))
             throw new DomainException("HLC-01", "Title is required");
-        if (options?.WorkingSchedules == null || options.WorkingSchedules.Count == 0)
+        if (options?.WorkingSchedules == null || !options.WorkingSchedules.Any())
             throw new DomainException("HLC-02", "At least one working schedule is required.");
     }
 
-    private void UpdateProperties(HealthCareOptions options)
+    private void UpdateProperties(IHealthCareOptions options)
     {
         Title = options.Title;
         WorkingSchedules = options.WorkingSchedules

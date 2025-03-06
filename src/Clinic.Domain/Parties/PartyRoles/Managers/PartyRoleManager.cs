@@ -3,6 +3,7 @@ using Clinic.Domain.Contracts.Parties.PartyRoles.HealthCares;
 using Clinic.Domain.Parties.PartyRoles.HealthCares;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using BindingFlags = System.Reflection.BindingFlags;
 
 namespace Clinic.Domain.Parties.PartyRoles.Managers;
 
@@ -25,13 +26,20 @@ public class PartyRoleManager //: IPartyRoleOptions
         var options = BuildOptions(code, payload);
         return Build(code, options);
     }
+
     public IPartyRole Build(string code, IPartyRoleOptions options)
     {
         var builder = mapper[code];
+        // var ctor = builder.GetPartyRoleType().GetConstructors().FirstOrDefault();
+        // if (ctor == null)
+        //     throw new Exception($"Party role code {builder.GetPartyRoleType().FullName} not found");
+        // var partyRole = ctor
+        //     .Invoke([options]);
+
         var partyRole = Activator.CreateInstance(builder.GetPartyRoleType(), options)!;
         return (IPartyRole)partyRole;
     }
-    
+
     public IPartyRoleOptions BuildOptions(string code, JObject payload)
     {
         payload["code"] = code;

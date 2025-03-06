@@ -16,8 +16,8 @@ public class PersonTests : PartyTests<PersonTestBuilder, Person>
             .IsDoctor();
     }
 
-    protected override IPartyRoleOptions[] AcceptableRoles => [new DoctorTestBuilder().BuildOptions()]; 
-    protected override IPartyRoleOptions[] UnAcceptableRoles =>[new HealthCareTestBuilder().BuildOptions()];
+    protected override IPartyRoleOptions[] AcceptableRoles => [new DoctorTestBuilder()]; 
+    protected override IPartyRoleOptions[] UnAcceptableRoles =>[new HealthCareTestBuilder()];
 
     [Fact]
     public void Constructor_Should_Throw_Exception_When_FirstName_Is_Null()

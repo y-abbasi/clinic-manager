@@ -13,20 +13,26 @@ public class Session : AggregateRoot<SessionId>, ISession
         Id = new SessionId(option.OrganizationId, option.PractitionerId, option.Date);
     }
 
-    public void SetAppointment(DateTime at, IPerson patient, int durationMinute)
+    public void SetAppointment(IAppointmentOption option)
     {
-        Appointments = Appointments.Add(new Appointment(at, patient.Id, durationMinute));
+        
+        Appointments = Appointments.Add(new Appointment(option));
     }
 
     private ImmutableArray<IAppointment> Appointments { get; set; } = [];
     IEnumerable<IAppointment> ISession.Appointments => Appointments;
 }
 
-public class Appointment(DateTime time, PartyId patient, int durationMinute) : Entity<AppointmentId>, IAppointment
+public class Appointment : Entity<AppointmentId>, IAppointment
 {
-    public DateTime Time { get; } = time;
-    public PartyId Patient { get; } = patient;
+    public Appointment(IAppointmentOption option)
+    {
+        Time = option.Time;
+        Patient = option.Patient;
+        DurationMinute = option.DurationMinute;
+    }
 
-
-    public int DurationMinute { get; } = durationMinute;
+    public DateTime Time { get; }
+    public PartyId Patient { get; }
+    public int DurationMinute { get; }
 }

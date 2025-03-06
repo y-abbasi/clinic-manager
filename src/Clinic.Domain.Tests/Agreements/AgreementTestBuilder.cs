@@ -1,6 +1,7 @@
 using Clinic.Domain.Agreements;
 using Clinic.Domain.Contracts.Agreements;
 using Clinic.Domain.Contracts.Parties;
+using Clinic.Domain.Contracts.Parties.PartyRoles.Doctors;
 using Clinic.Domain.Contracts.Sessions;
 using Clinic.Domain.Parties.Organizations;
 using Clinic.Domain.Parties.People;
@@ -12,10 +13,11 @@ using NSubstitute.Extensions;
 
 namespace Clinic.Domain.Tests.Agreements;
 
-internal class AgreementTestBuilder : IAgreementOptions
+public class AgreementTestBuilder : IAgreementOptions
 {
     public readonly AgreementManager Manager = new();
     private readonly ISessionService _sessionService = Substitute.For<ISessionService>();
+    private readonly IPartyService _partyService = Substitute.For<IPartyService>();
 
     public PartyId OrganizationId => Manager.OrganizationId;
     public PartyId PractitionerId => Manager.PractitionerId;
@@ -67,7 +69,8 @@ internal class AgreementTestBuilder : IAgreementOptions
         var builder = new PersonTestBuilder();
         builder = configure?.Invoke(builder) ?? builder;
         Practitioner = builder.Build();
-        Manager.WithPractitioner(builder.Build());
+        _partyService.GetParty(Arg.Is<PartyId>(p => p == PractitionerId)).Returns(Practitioner);
+        Manager.WithPractitioner(Practitioner);
         return this;
     }
 
@@ -102,15 +105,17 @@ internal class AgreementTestBuilder : IAgreementOptions
         return this;
     }
 
-    public Task<ISession> GetOrCreateSession(DateTime date)
+    public async Task<ISession> GetOrCreateSession(DateTime date)
     {
-        return Build().GetOrCreateSessionAsync(_sessionService, date);
+        var session = await Build().GetOrCreateSessionAsync(_sessionService, date);
+        _sessionService.GetAsync(session.Id).Returns(session);
+        return session;
     }
 
     public ISession ThereIsASessionFor(DateOnly date)
     {
         var session = Substitute.For<ISession>();
-        _sessionService.GetAsync(new SessionId(OrganizationId, PractitionerId, date))
+        _sessionService.GetAsync(new SessionId(OrganizationId, PractitionerId, date))!
             .Returns(Task.FromResult(session));
 
         return session;
@@ -124,5 +129,11 @@ internal class AgreementTestBuilder : IAgreementOptions
             .Returns(Task.FromResult<ISession?>(null));
 
         return this;
+    }
+
+    public async Task<ISession> SetAppointmentAsync(IAppointmentOption option)
+    {
+        await GetOrCreateSession(option.Time);
+        return await Build().SetAppointmentAsync(option, _sessionService, _partyService);
     }
 }

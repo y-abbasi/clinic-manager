@@ -3,6 +3,8 @@ using Clinic.Domain.Agreements.Exceptions;
 using Clinic.Domain.Contracts.Agreements;
 using Clinic.Domain.Contracts.Parties;
 using Clinic.Domain.Contracts.Parties.Organizations;
+using Clinic.Domain.Contracts.Parties.PartyRoles.Doctors;
+using Clinic.Domain.Contracts.Parties.People;
 using Clinic.Domain.Contracts.Sessions;
 using Clinic.Domain.Parties.PartyRoles.HealthCares;
 using Clinic.Domain.Sessions;
@@ -42,6 +44,17 @@ public partial class Agreement : AggregateRoot<AgreementId>, IAgreement
     {
         return await sessionService.GetAsync(new SessionId(OrganizationId, PractitionerId, DateOnly.FromDateTime(date))) ??
               await CreateNewSession(date);
+    }
+
+    public async Task<ISession> SetAppointmentAsync(IAppointmentOption option, ISessionService sessionService,
+        IPartyService partyService)
+    {
+        var session = (Session) await GetOrCreateSessionAsync(sessionService, option.Time);
+        var practitioner = await partyService.GetParty(PractitionerId);
+        var server = practitioner.PartyRoles.OfType<IAmServer>().First();
+        server.ValidateAppointment(option);
+        session.SetAppointment(option);
+        return session;
     }
 
     private Task<ISession> CreateNewSession(DateTime date)

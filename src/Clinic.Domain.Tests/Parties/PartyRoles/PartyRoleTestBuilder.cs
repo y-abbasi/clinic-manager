@@ -9,41 +9,33 @@ using Newtonsoft.Json.Linq;
 
 namespace Clinic.Domain.Tests.Parties.PartyRoles;
 
-public abstract class PartyRoleTestBuilder<TBuilder, TEntity> : IPartyRoleTestBuilder<TBuilder, TEntity>
+public abstract class PartyRoleTestBuilder<TBuilder, TEntity> : IPartyRoleTestBuilder<TBuilder, TEntity>,
+    IPartyRoleOptions
     where TBuilder : class, IPartyRoleTestBuilder<TBuilder, TEntity>
     where TEntity : IPartyRole
 {
     private readonly PartyRoleManager _manager = new PartyRoleManager();
     public abstract string Code { get; }
 
-    public PartyRoleTestBuilder()
-    {
-    }
-
-    protected JObject Payload { get; } = new();
-    public string Title => Payload["Title"].ToObject<string>();
+    public string Title { get; set; }
 
     public TBuilder WithTitle(string title)
     {
-        Payload["Title"] = title;
+        Title = title;
         return this;
     }
+
 
     public TEntity Build()
     {
         try
         {
-            return (TEntity)_manager.Build(Code, Payload);
+            return (TEntity)_manager.Build(Code, this);
         }
         catch (TargetInvocationException e)
         {
             throw e.InnerException!;
         }
-    }
-
-    public IPartyRoleOptions BuildOptions()
-    {
-        return _manager.BuildOptions(Code, Payload);
     }
 
     public static implicit operator TBuilder(PartyRoleTestBuilder<TBuilder, TEntity> builder) =>

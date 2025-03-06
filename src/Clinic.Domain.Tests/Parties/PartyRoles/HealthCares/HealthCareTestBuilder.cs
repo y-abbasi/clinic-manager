@@ -7,17 +7,16 @@ using Newtonsoft.Json.Linq;
 
 namespace Clinic.Domain.Tests.Parties.PartyRoles.HealthCares;
 
-public abstract class HealthCareTestBuilder<TSelf> : PartyRoleTestBuilder<TSelf, HealthCare> //, IAmWorkStation
-    where TSelf : class, IPartyRoleTestBuilder<TSelf, HealthCare>
+public abstract class HealthCareTestBuilder<TSelf> : PartyRoleTestBuilder<TSelf, HealthCare> , IHealthCareOptions
+    where TSelf : class, IPartyRoleTestBuilder<TSelf, HealthCare>, IAmWorkStation
 {
     public override string Code => HealthCare.RoleCode;
 
-    public IEnumerable<ScheduleOption> WorkingSchedules =>
-        Payload["WorkingSchedules"].ToObject<ImmutableList<ScheduleOption>>();
+    public IEnumerable<IScheduleOption> WorkingSchedules {get; set;}
 
     public TSelf WithWorkingSchedules(IEnumerable<IScheduleOption> schedules)
     {
-        Payload["WorkingSchedules"] = JToken.FromObject(schedules);
+       WorkingSchedules = schedules;
         return this;
     }
 
