@@ -1,5 +1,4 @@
 using Clinic.Domain.Contracts.Parties;
-using Clinic.Domain.Contracts.Parties.PartyRoles;
 using Clinic.Domain.Contracts.Parties.PartyRoles.Doctors;
 using Clinic.Domain.Contracts.Sessions;
 using Clinic.Domain.Parties.People;

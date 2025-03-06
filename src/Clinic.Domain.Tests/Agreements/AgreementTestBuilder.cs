@@ -1,7 +1,6 @@
 using Clinic.Domain.Agreements;
 using Clinic.Domain.Contracts.Agreements;
 using Clinic.Domain.Contracts.Parties;
-using Clinic.Domain.Contracts.Parties.PartyRoles.Doctors;
 using Clinic.Domain.Contracts.Sessions;
 using Clinic.Domain.Parties.Organizations;
 using Clinic.Domain.Parties.People;
@@ -9,7 +8,6 @@ using Clinic.Domain.Tests.Parties.Organizations;
 using Clinic.Domain.Tests.Parties.People;
 using Core.SharedKernels;
 using NSubstitute;
-using NSubstitute.Extensions;
 
 namespace Clinic.Domain.Tests.Agreements;
 

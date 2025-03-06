@@ -1,13 +1,7 @@
-using System.Reflection;
-using Clinic.Domain.Contracts.Parties;
 using Clinic.Domain.Contracts.Parties.PartyRoles.Doctors;
-using Clinic.Domain.Parties.PartyRoles.Doctors;
-using Clinic.Domain.Parties.PartyRoles.HealthCares;
 using Clinic.Domain.Sessions;
 using Clinic.Domain.Sessions.Exceptions;
-using Clinic.Domain.Tests.Agreements;
 using Clinic.Domain.Tests.Parties.PartyRoles.Doctors;
-using Clinic.Domain.Tests.Parties.People;
 using FluentAssertions.Extensions;
 
 namespace Clinic.Domain.Tests.Sessions;

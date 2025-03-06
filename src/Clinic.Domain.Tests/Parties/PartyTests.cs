@@ -1,6 +1,5 @@
 using Clinic.Domain.Contracts.Parties;
 using Clinic.Domain.Contracts.Parties.PartyRoles;
-using Clinic.Domain.Contracts.Parties.People;
 using Clinic.Domain.Parties.Exceptions;
 
 namespace Clinic.Domain.Tests.Parties;

@@ -3,7 +3,6 @@ using Clinic.Domain.Contracts.Agreements;
 using Clinic.Domain.Contracts.Sessions;
 using Core.Domain;
 using Core.SharedKernels;
-using NSubstitute;
 using Xunit.Abstractions;
 
 namespace Clinic.Domain.Tests.Agreements;

@@ -1,6 +1,4 @@
-using Clinic.Domain.Contracts.Parties.Organizations;
 using Clinic.Domain.Contracts.Parties.PartyRoles;
-using Clinic.Domain.Contracts.Parties.People;
 using Clinic.Domain.Parties.Organizations;
 using Clinic.Domain.Tests.Parties.PartyRoles.Doctors;
 using Clinic.Domain.Tests.Parties.PartyRoles.HealthCares;

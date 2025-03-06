@@ -1,6 +1,4 @@
 using System.Collections.Immutable;
-using System.Diagnostics;
-using System.Runtime.Intrinsics.Arm;
 using Clinic.Domain.Contracts.Agreements;
 using Clinic.Domain.Contracts.Parties.Organizations;
 using Clinic.Domain.Contracts.Parties.PartyRoles.HealthCares;
@@ -8,7 +6,6 @@ using Clinic.Domain.Contracts.Parties.People;
 using Clinic.Domain.Parties.PartyRoles.Doctors;
 using Clinic.Domain.Parties.PartyRoles.HealthCares;
 using Core.Domain;
-using Newtonsoft.Json.Linq;
 
 namespace Clinic.Domain.Agreements;
 

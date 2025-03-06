@@ -1,10 +1,7 @@
 using Clinic.Domain.Contracts.Parties;
 using Clinic.Domain.Contracts.Parties.PartyRoles;
-using Clinic.Domain.Contracts.Parties.People;
-using Clinic.Domain.Parties.People;
 using Clinic.Domain.Tests.Parties.PartyRoles.Doctors;
 using Clinic.Domain.Tests.Parties.PartyRoles.HealthCares;
-using Clinic.Domain.Tests.Parties.People;
 
 namespace Clinic.Domain.Tests.Parties;
 

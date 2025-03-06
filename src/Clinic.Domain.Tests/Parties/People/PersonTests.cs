@@ -1,10 +1,8 @@
 using Clinic.Domain.Contracts.Parties.PartyRoles;
-using Clinic.Domain.Contracts.Parties.People;
 using Clinic.Domain.Parties.Exceptions;
 using Clinic.Domain.Parties.People;
 using Clinic.Domain.Tests.Parties.PartyRoles.Doctors;
 using Clinic.Domain.Tests.Parties.PartyRoles.HealthCares;
-using FluentAssertions;
 
 namespace Clinic.Domain.Tests.Parties.People;
 

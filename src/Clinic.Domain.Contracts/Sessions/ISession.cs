@@ -1,5 +1,4 @@
 using Clinic.Domain.Contracts.Parties;
-using Clinic.Domain.Contracts.Parties.People;
 using Core.Domain;
 
 namespace Clinic.Domain.Contracts.Sessions;

@@ -4,7 +4,6 @@ using Clinic.Domain.Contracts.Parties.PartyRoles;
 using Clinic.Domain.Parties.Exceptions;
 using Clinic.Domain.Parties.PartyRoles.Managers;
 using Core.Domain;
-using Newtonsoft.Json;
 
 namespace Clinic.Domain.Parties;
 

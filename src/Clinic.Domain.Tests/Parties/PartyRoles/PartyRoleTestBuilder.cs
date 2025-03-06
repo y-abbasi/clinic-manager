@@ -1,11 +1,6 @@
 using System.Reflection;
-using Clinic.Domain.Contracts.Agreements;
 using Clinic.Domain.Contracts.Parties.PartyRoles;
-using Clinic.Domain.Parties.PartyRoles;
 using Clinic.Domain.Parties.PartyRoles.Managers;
-using Clinic.Domain.Tests.Parties.PartyRoles.HealthCares;
-using Core.SharedKernels;
-using Newtonsoft.Json.Linq;
 
 namespace Clinic.Domain.Tests.Parties.PartyRoles;
 

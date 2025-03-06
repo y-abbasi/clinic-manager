@@ -1,9 +1,5 @@
 using Clinic.Domain.Contracts.Parties.PartyRoles;
-using Clinic.Domain.Contracts.Parties.PartyRoles.HealthCares;
-using Clinic.Domain.Parties.PartyRoles.HealthCares;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using BindingFlags = System.Reflection.BindingFlags;
 
 namespace Clinic.Domain.Parties.PartyRoles.Managers;
 

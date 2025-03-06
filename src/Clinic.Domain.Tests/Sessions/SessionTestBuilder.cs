@@ -1,7 +1,6 @@
 using Clinic.Domain.Contracts.Agreements;
 using Clinic.Domain.Contracts.Parties;
 using Clinic.Domain.Contracts.Sessions;
-using Clinic.Domain.Sessions;
 using Clinic.Domain.Tests.Agreements;
 using NSubstitute;
 

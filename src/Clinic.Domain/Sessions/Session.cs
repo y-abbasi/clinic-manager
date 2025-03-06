@@ -1,6 +1,5 @@
 using System.Collections.Immutable;
 using Clinic.Domain.Contracts.Parties;
-using Clinic.Domain.Contracts.Parties.People;
 using Clinic.Domain.Contracts.Sessions;
 using Core.Domain;
 

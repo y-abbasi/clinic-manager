@@ -1,4 +1,3 @@
-using System.Collections.Immutable;
 using Clinic.Domain.Contracts.Agreements;
 using Clinic.Domain.Contracts.Parties;
 using Clinic.Domain.Contracts.Parties.Organizations;

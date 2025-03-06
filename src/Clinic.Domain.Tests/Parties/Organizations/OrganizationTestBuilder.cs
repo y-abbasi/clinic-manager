@@ -1,8 +1,6 @@
 using Clinic.Domain.Contracts.Parties.Organizations;
-using Clinic.Domain.Contracts.Parties.People;
 using Clinic.Domain.Parties.Organizations;
 using Clinic.Domain.Parties.PartyRoles.Managers;
-using Clinic.Domain.Parties.People;
 
 namespace Clinic.Domain.Tests.Parties.Organizations;
 

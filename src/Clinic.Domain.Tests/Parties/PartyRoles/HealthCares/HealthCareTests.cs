@@ -1,5 +1,3 @@
-using System.Reflection;
-using Clinic.Domain.Parties.PartyRoles;
 using Clinic.Domain.Parties.PartyRoles.HealthCares;
 using Core.Domain;
 

@@ -1,5 +1,4 @@
 using Clinic.Domain.Parties.PartyRoles.Doctors;
-using Clinic.Domain.Tests.Parties.PartyRoles.HealthCares;
 
 namespace Clinic.Domain.Tests.Parties.PartyRoles.Doctors;
 

@@ -1,9 +1,7 @@
-using System.Collections.Immutable;
 using Clinic.Domain.Contracts.Agreements;
 using Clinic.Domain.Contracts.Parties.PartyRoles.HealthCares;
 using Clinic.Domain.Parties.PartyRoles.HealthCares;
 using Core.SharedKernels;
-using Newtonsoft.Json.Linq;
 
 namespace Clinic.Domain.Tests.Parties.PartyRoles.HealthCares;
 
