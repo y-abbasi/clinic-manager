@@ -1,6 +1,8 @@
+using Clinic.Domain.Contracts.Agreements;
 using Clinic.Domain.Contracts.Parties;
 using Clinic.Domain.Contracts.Parties.PartyRoles.Doctors;
 using Clinic.Domain.Contracts.Sessions;
+using Clinic.Domain.Parties.Exceptions;
 using Clinic.Domain.Parties.People;
 using Clinic.Domain.Sessions.Exceptions;
 using Core.SharedKernels;
@@ -30,11 +32,16 @@ public class Doctor : PartyRole, IDoctorOptions, IAmServer
         SpecialityType = options.SpecialityType;
     }
 
-    public void ValidateAppointment(IAppointmentOption appointment)
+    public async Task ValidateAppointment(ISession session, IAppointmentOption appointment, IClientAppointmentService clientAppointmentService)
     {
         if (!GetValidDuration().InRange(appointment.DurationMinute))
             throw new AppointmentDurationIsInvalid();
-            
+
+        var appointmentDate = DateOnly.FromDateTime(appointment.Time);
+        var clientAppointmentsCount = await clientAppointmentService.GetClientAppointmentsCountAsync(appointment.Patient, appointmentDate);
+        
+        if (clientAppointmentsCount >= 2)
+            throw new ClientDailyAppointmentLimitExceeded();
     }
 
     private Range<int> GetValidDuration() => SpecialityType switch

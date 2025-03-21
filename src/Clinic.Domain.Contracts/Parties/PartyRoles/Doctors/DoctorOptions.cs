@@ -1,3 +1,4 @@
+using Clinic.Domain.Contracts.Agreements;
 using Clinic.Domain.Contracts.Sessions;
 
 namespace Clinic.Domain.Contracts.Parties.PartyRoles.Doctors;
@@ -18,5 +19,5 @@ public interface IDoctorOptions
 
 public interface IAmServer
 {
-    void ValidateAppointment(IAppointmentOption appointment);
+    Task ValidateAppointment(ISession agreement, IAppointmentOption appointment, IClientAppointmentService patientAppointmentService);
 }

@@ -11,6 +11,7 @@ public class SessionTestBuilder
     public AgreementTestBuilder SutBuilder;
     ISessionService SessionService => Substitute.For<ISessionService>();
     IPartyService PartyService = Substitute.For<IPartyService>();
+    IClientAppointmentService PatientAppointmentService = Substitute.For<IClientAppointmentService>();
     public IAgreement Sut;
 
     public SessionTestBuilder()
@@ -30,6 +31,6 @@ public class SessionTestBuilder
     public async Task<ISession> SetAppointment(IAppointmentOption option)
     {
         return await SutBuilder.SetAppointmentAsync(option);
-        return await Sut.SetAppointmentAsync(option, SessionService, PartyService);
+        return await Sut.SetAppointmentAsync(option, SessionService, PartyService, PatientAppointmentService);
     }
 }

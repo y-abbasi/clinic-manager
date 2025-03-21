@@ -44,12 +44,12 @@ public partial class Agreement : AggregateRoot<AgreementId>, IAgreement
     }
 
     public async Task<ISession> SetAppointmentAsync(IAppointmentOption option, ISessionService sessionService,
-        IPartyService partyService)
+        IPartyService partyService, IClientAppointmentService clientAppointmentService)
     {
         var session = (Session) await GetOrCreateSessionAsync(sessionService, option.Time);
         var practitioner = await partyService.GetParty(PractitionerId);
         var server = practitioner.PartyRoles.OfType<IAmServer>().First();
-        server.ValidateAppointment(option);
+        await server.ValidateAppointment(session, option, clientAppointmentService);
         session.SetAppointment(option);
         return session;
     }

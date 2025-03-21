@@ -11,8 +11,8 @@ public abstract class PartyRoleTests<TBuilder, TEntity>
         SutBuilder = CreateSutBuilder();
     }
 
-    protected abstract IPartyRoleTestBuilder<TBuilder, TEntity> CreateSutBuilder();
-    private IPartyRoleTestBuilder<TBuilder, TEntity> SutBuilder;
+    protected abstract TBuilder CreateSutBuilder();
+    protected TBuilder SutBuilder;
 
     [Fact]
     public void PartyRoleCreatedSuccessfully()

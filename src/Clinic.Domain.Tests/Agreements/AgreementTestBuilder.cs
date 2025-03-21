@@ -16,6 +16,7 @@ public class AgreementTestBuilder : IAgreementOptions
     public readonly AgreementManager Manager = new();
     private readonly ISessionService _sessionService = Substitute.For<ISessionService>();
     private readonly IPartyService _partyService = Substitute.For<IPartyService>();
+    private readonly IClientAppointmentService _patientAppointmentService = Substitute.For<IClientAppointmentService>();
 
     public PartyId OrganizationId => Manager.OrganizationId;
     public PartyId PractitionerId => Manager.PractitionerId;
@@ -132,6 +133,6 @@ public class AgreementTestBuilder : IAgreementOptions
     public async Task<ISession> SetAppointmentAsync(IAppointmentOption option)
     {
         await GetOrCreateSession(option.Time);
-        return await Build().SetAppointmentAsync(option, _sessionService, _partyService);
+        return await Build().SetAppointmentAsync(option, _sessionService, _partyService, _patientAppointmentService);
     }
 }

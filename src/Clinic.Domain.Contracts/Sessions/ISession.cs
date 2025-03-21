@@ -33,3 +33,8 @@ public interface ISessionOption
     PartyId PractitionerId { get; }
     DateOnly Date { get; }
 }
+
+public interface IClientAppointmentService
+{
+    Task<int> GetClientAppointmentsCountAsync(PartyId clientId, DateOnly date);
+}
